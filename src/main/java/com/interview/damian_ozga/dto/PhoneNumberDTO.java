@@ -1,4 +1,4 @@
-package com.interview.damian_ozga.model;
+package com.interview.damian_ozga.dto;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PhoneNumber {
+public class PhoneNumberDTO {
     private String type;
     private String number;
 }

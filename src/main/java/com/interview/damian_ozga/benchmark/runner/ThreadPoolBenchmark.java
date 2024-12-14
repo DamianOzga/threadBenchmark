@@ -1,16 +1,16 @@
 package com.interview.damian_ozga.benchmark.runner;
 
 import com.interview.damian_ozga.ThreadBenchmarkApp;
-import com.interview.damian_ozga.config.impl.MongoDBConnection;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
+import com.interview.damian_ozga.dto.UserDTO;
+import com.interview.damian_ozga.service.ifc.IUserService;
 import org.openjdk.jmh.annotations.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
+
+import static com.interview.damian_ozga.utils.FileUtils.*;
 
 
 @State(Scope.Benchmark)
@@ -18,32 +18,19 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class ThreadPoolBenchmark {
 
-//    private ConfigurableApplicationContext context;
-//    private MongoDBConnection mongoDBConnection;
-//    private MongoClient mongoClient;
-//    private MongoCollection<Document> benchmarkCollection;
-//    private static final String URI = "mongodb://localhost:27017";
-//    private static final String DATABASE_NAME = "sample_guides";
-//    private static final String COLLECTION_NAME = "benchamark";
+    private ConfigurableApplicationContext context;
+    private IUserService userService;
 
-//    public static void main(String... args) {
-//        File testJSONFile = createTestJSONFile();
-//        Document documentFromJSONFile = createDocumentFromJSONFile(testJSONFile);
-//        cleanupTestJSONFile();
-//    }
+    public static void main(String... args) {
+        File testJSONFile = createTestJSONFile();
+        UserDTO userDTO = mapJsonFileToClass(testJSONFile, UserDTO.class);
+        cleanupTestJSONFile();
+    }
 
     @Setup(Level.Trial)
     public void setup() {
-//        context = SpringApplication.run(ThreadBenchmarkApp.class);
-////        mongoDBConnection = context.getBean(MongoDBConnection.class);
-//        mongoDBConnection = context.getBean(MongoDBConnection.class);
-//        databasePreparation();
-    }
-
-    private void databasePreparation() {
-//        mongoClient = mongoDBConnection.getMongoClient();
-//        MongoDatabase sample_guides = mongoClient.getDatabase(DATABASE_NAME);
-//        benchmarkCollection = sample_guides.getCollection(COLLECTION_NAME);
+        context = SpringApplication.run(ThreadBenchmarkApp.class);
+        userService = context.getBean(IUserService.class);
     }
 
     @Benchmark
@@ -52,8 +39,8 @@ public class ThreadPoolBenchmark {
     @Fork(1)
     @Threads(1)
     public void Thread1() {
-        Document document = new Document("key=2", "value");
-//        benchmarkCollection.insertOne(document);
+        UserDTO.builder().name("Tny").build();
+        userService.save(UserDTO.builder().name("Tny").build());
     }
 
 //    //    @Benchmark

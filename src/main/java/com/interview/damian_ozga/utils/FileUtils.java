@@ -44,14 +44,24 @@ public class FileUtils {
             dir.delete();
         }
     }
+    // TODO: start from here
+//    public static Document createDocumentFromJSONFile(File file){
+//        ObjectMapper mapper = new ObjectMapper();
+//        try {
+//            JsonNode jsonNode = mapper.readTree(file);
+//
+//        } catch (IOException jExc){
+//            throw new RuntimeException("Creation document from JSON file filed.");
+//        }
+//    }
 
-    public static Document createDocumentFromJSONFile(File file){
-        ObjectMapper mapper = new ObjectMapper();
+    public static <T> T mapJsonFileToClass(File file, Class<T> clazz) {
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            JsonNode jsonNode = mapper.readTree(file);
-            return Document.parse(jsonNode.toString());
-        } catch (IOException jExc){
-            throw new RuntimeException("Creation document from JSON file filed.");
+            return objectMapper.readValue(file, clazz);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
