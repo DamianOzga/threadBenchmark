@@ -1,15 +1,16 @@
-package com.interview.damian_ozga;
+package com.interview.damian_ozga.benchmark.runner;
 
+import com.interview.damian_ozga.ThreadBenchmarkApp;
 import com.interview.damian_ozga.config.impl.MongoDBConnection;
-import com.mongodb.client.*;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.openjdk.jmh.annotations.*;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
-
-import java.io.File;
 import java.util.concurrent.TimeUnit;
-
-import static com.interview.damian_ozga.utils.FileUtils.*;
 
 
 @State(Scope.Benchmark)
@@ -17,27 +18,32 @@ import static com.interview.damian_ozga.utils.FileUtils.*;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class ThreadPoolBenchmark {
 
-    private MongoClient mongoClient;
-    private MongoCollection<Document> benchmarkCollection;
-    private static final String URI = "mongodb://localhost:27017";
-    private static final String DATABASE_NAME = "sample_guides";
-    private static final String COLLECTION_NAME = "benchamark";
+//    private ConfigurableApplicationContext context;
+//    private MongoDBConnection mongoDBConnection;
+//    private MongoClient mongoClient;
+//    private MongoCollection<Document> benchmarkCollection;
+//    private static final String URI = "mongodb://localhost:27017";
+//    private static final String DATABASE_NAME = "sample_guides";
+//    private static final String COLLECTION_NAME = "benchamark";
 
-    public static void main(String... args) {
-        File testJSONFile = createTestJSONFile();
-        Document documentFromJSONFile = createDocumentFromJSONFile(testJSONFile);
-        cleanupTestJSONFile();
-    }
+//    public static void main(String... args) {
+//        File testJSONFile = createTestJSONFile();
+//        Document documentFromJSONFile = createDocumentFromJSONFile(testJSONFile);
+//        cleanupTestJSONFile();
+//    }
 
     @Setup(Level.Trial)
     public void setup() {
-        databasePreparation();
+//        context = SpringApplication.run(ThreadBenchmarkApp.class);
+////        mongoDBConnection = context.getBean(MongoDBConnection.class);
+//        mongoDBConnection = context.getBean(MongoDBConnection.class);
+//        databasePreparation();
     }
 
     private void databasePreparation() {
-        mongoClient = MongoDBConnection.getInstance(URI).getMongoClient();
-        MongoDatabase sample_guides = mongoClient.getDatabase(DATABASE_NAME);
-        benchmarkCollection = sample_guides.getCollection(COLLECTION_NAME);
+//        mongoClient = mongoDBConnection.getMongoClient();
+//        MongoDatabase sample_guides = mongoClient.getDatabase(DATABASE_NAME);
+//        benchmarkCollection = sample_guides.getCollection(COLLECTION_NAME);
     }
 
     @Benchmark
@@ -46,7 +52,8 @@ public class ThreadPoolBenchmark {
     @Fork(1)
     @Threads(1)
     public void Thread1() {
-
+        Document document = new Document("key=2", "value");
+//        benchmarkCollection.insertOne(document);
     }
 
 //    //    @Benchmark
@@ -195,6 +202,6 @@ public class ThreadPoolBenchmark {
 
     @TearDown
     public void closeConnection() {
-        mongoClient.close();
+//        mongoClient.close();
     }
 }
