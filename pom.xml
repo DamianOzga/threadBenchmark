@@ -10,6 +10,7 @@
     <description>Demo app for multithreaded method benchmark.</description>
     <modules>
         <module>Benchmark</module>
+        <module>ThreadBenchmarkApplication</module>
     </modules>
     <version>0.0.1</version>
     <packaging>pom</packaging>
@@ -59,11 +60,6 @@
             <artifactId>jmh-core</artifactId>
             <version>${jmh.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.mongodb</groupId>-->
-<!--            <artifactId>mongodb-driver-sync</artifactId>-->
-<!--            <version>4.4.2</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
