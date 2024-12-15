@@ -1,6 +1,7 @@
 package com.interview.damian_ozga.utils;
 
 import com.interview.damian_ozga.model.User;
+import com.interview.damian_ozga.test_base.AbstractUnitTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import java.io.File;
 
-public class FileUtilsTest {
+public class FileUtilsTest extends AbstractUnitTest {
 
     private File testFile;
 

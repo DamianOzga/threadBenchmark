@@ -7,23 +7,21 @@ import com.interview.damian_ozga.dto.UserDTO;
 import com.interview.damian_ozga.model.Address;
 import com.interview.damian_ozga.model.PhoneNumber;
 import com.interview.damian_ozga.model.User;
+import com.interview.damian_ozga.test_base.AbstractUnitTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class UserMapperTest {
+public class UserMapperTest extends AbstractUnitTest {
 
+    @Autowired
     private UserMapper userMapper;
-
-    @BeforeEach
-    public void setUp() {
-        userMapper = new UserMapper();
-    }
 
     @Test
     @DisplayName("User to userDto")
