@@ -1,4 +1,4 @@
-package com.interview.damian_ozga.benchmark.runner;
+package com.interview.damian_ozga.benchmark;
 
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;

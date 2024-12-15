@@ -8,8 +8,11 @@
     <artifactId>ThreadBenchmark</artifactId>
     <name>ThreadBenchmark</name>
     <description>Demo app for multithreaded method benchmark.</description>
+    <modules>
+        <module>Benchmark</module>
+    </modules>
     <version>0.0.1</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

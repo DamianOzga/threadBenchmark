@@ -1,4 +1,4 @@
-package com.interview.damian_ozga.benchmark.runner;
+package com.interview.damian_ozga.benchmark;
 
 import com.interview.damian_ozga.ThreadBenchmarkApp;
 import com.interview.damian_ozga.dto.UserDTO;
@@ -22,9 +22,9 @@ public class ThreadPoolBenchmark {
     private IUserService userService;
 
     public static void main(String... args) {
-        File testJSONFile = createTestJSONFile();
-        UserDTO userDTO = mapJsonFileToClass(testJSONFile, UserDTO.class);
-        cleanupTestJSONFile();
+//        File testJSONFile = createTestJSONFile();
+//        UserDTO userDTO = mapJsonFileToClass(testJSONFile, UserDTO.class);
+//        cleanupTestJSONFile();
     }
 
     @Setup(Level.Trial)
