@@ -2,7 +2,7 @@ package com.interview.damian_ozga.service.ifc;
 
 public interface GeneralService<T, Key> {
 
-    void save(T documentDTO);
+    T save(T documentDTO);
 
     T getByKey(Key documentKey);
 
