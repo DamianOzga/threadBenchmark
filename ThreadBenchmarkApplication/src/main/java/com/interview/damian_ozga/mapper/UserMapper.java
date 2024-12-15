@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.stream.Collectors;
 
 @Service
-public class UserMapper {
+public class UserMapper implements CommonMapper<User, UserDTO>{
 
     public UserDTO toDto(User user) {
         if (user == null) {

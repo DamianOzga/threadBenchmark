@@ -67,26 +67,29 @@ public class FileUtils {
     }
 
     private static String getDummyJsonContent() {
-        return "{\n" +
-                "    \"key\": \"XyBBa910\",\n" +
-                "    \"name\": \"John Doe\",\n" +
-                "    \"email\": \"john.doe@example.com\",\n" +
-                "    \"address\": {\n" +
-                "      \"street\": \"123 Main St\",\n" +
-                "      \"city\": \"Anytown\",\n" +
-                "      \"state\": \"CA\",\n" +
-                "      \"zipcode\": \"12345\"\n" +
-                "    },\n" +
-                "    \"phoneNumbers\": [\n" +
-                "      {\n" +
-                "        \"type\": \"home\",\n" +
-                "        \"number\": \"555-555-5555\"\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"type\": \"work\",\n" +
-                "        \"number\": \"555-555-5556\"\n" +
-                "      }\n" +
-                "    ]\n" +
-                "}";
+        return """
+        {
+            "key": "XyBBa910",
+            "name": "John Doe",
+            "email": "john.doe@example.com",
+            "address": {
+                "street": "123 Main St",
+                "city": "Anytown",
+                "state": "CA",
+                "zipcode": "12345"
+            },
+            "phoneNumbers": [
+                {
+                    "type": "home",
+                    "number": "555-555-5555"
+                },
+                {
+                    "type": "work",
+                    "number": "555-555-5556"
+                }
+            ]
+        }
+        """;
     }
+
 }
