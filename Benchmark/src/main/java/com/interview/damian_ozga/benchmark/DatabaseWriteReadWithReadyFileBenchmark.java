@@ -18,9 +18,13 @@ public class DatabaseWriteReadWithReadyFileBenchmark extends AbstractThreadBench
 
     @Override
     public void codeToTest() {
-        userService.save(userDTO);
-        userService.getByKey(userDTO.getKey());
-        userService.getByKey(userDTO.getKey());
-        userService.getByKey(userDTO.getKey());
+        try {
+            userService.save(userDTO);
+            userService.getByKey(userDTO.getKey());
+            userService.getByKey(userDTO.getKey());
+            userService.getByKey(userDTO.getKey());
+        } catch (Exception exc) {
+            System.err.println("Exception caught in codeToTest: " + exc.getMessage());
+        }
     }
 }

@@ -27,11 +27,15 @@ public class DataBaseWriteReadRawDocumentBenchmark extends AbstractThreadBenchma
 
     @Override
     public void codeToTest() {
+        try {
         File benchmarkJSONFile = FileUtils.getBenchmarkJSONFile();
         documentFromJSONFile = FileUtils.createDocumentFromJSONFile(benchmarkJSONFile);
         mongoTemplate.save(documentFromJSONFile, "benchmark");
         mongoTemplate.getCollection("benchmark").find().cursor().next();
         mongoTemplate.getCollection("benchmark").find().cursor().next();
         mongoTemplate.getCollection("benchmark").find().cursor().next();
+        } catch (Exception exc) {
+            System.err.println("Exception caught in codeToTest: " + exc.getMessage());
+        }
     }
 }
