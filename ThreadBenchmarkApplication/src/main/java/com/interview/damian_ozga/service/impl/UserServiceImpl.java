@@ -23,7 +23,6 @@ public class UserServiceImpl implements UserService {
     public UserDTO save(UserDTO documentDTO) {
         User user = userMapper.toEntity(documentDTO);
         User save = userRepository.save(user);
-        log.info("User with name: {} successfully saved with key: {}.", save.getName(), save.getKey());
         return userMapper.toDto(save);
     }
 

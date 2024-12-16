@@ -3,7 +3,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the packaged application
-COPY ./target/ThreadBenchmarkApplication-0.0.1.jar /app
+COPY ./target/ThreadBenchmarkApplication.jar /app
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "ThreadBenchmarkApplication-0.0.1.jar"]
+ENTRYPOINT ["java", "-jar", "ThreadBenchmarkApplication.jar"]
