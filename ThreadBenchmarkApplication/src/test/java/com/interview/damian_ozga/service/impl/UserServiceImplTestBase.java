@@ -2,7 +2,6 @@ package com.interview.damian_ozga.service.impl;
 
 import com.interview.damian_ozga.dto.UserDTO;
 import com.interview.damian_ozga.mapper.UserMapper;
-import com.interview.damian_ozga.model.User;
 import com.interview.damian_ozga.test_base.AbstractIntegrationTestBase;
 import lombok.val;
 import org.junit.jupiter.api.DisplayName;
