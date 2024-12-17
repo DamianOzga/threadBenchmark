@@ -1,6 +1,5 @@
 package com.interview.damian_ozga.mapper;
 
-
 import com.interview.damian_ozga.dto.AddressDTO;
 import com.interview.damian_ozga.dto.PhoneNumberDTO;
 import com.interview.damian_ozga.dto.UserDTO;
@@ -8,7 +7,6 @@ import com.interview.damian_ozga.model.Address;
 import com.interview.damian_ozga.model.PhoneNumber;
 import com.interview.damian_ozga.model.User;
 import com.interview.damian_ozga.test_base.AbstractUnitTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +16,17 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * Unit tests for the UserMapper class.
+ */
 public class UserMapperTest extends AbstractUnitTest {
 
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * Test for converting User to UserDTO.
+     */
     @Test
     @DisplayName("User to userDto")
     public void user_to_userDto() {
@@ -51,6 +55,9 @@ public class UserMapperTest extends AbstractUnitTest {
         assertEquals(2, userDTO.getPhoneNumbers().size());
     }
 
+    /**
+     * Test for converting UserDTO to User.
+     */
     @Test
     @DisplayName("UserDto to user")
     public void userDto_to_user() {
@@ -68,7 +75,7 @@ public class UserMapperTest extends AbstractUnitTest {
 
         // when
         User user = userMapper.toEntity(userDTO);
-        
+
         // then
         assertNotNull(user);
         assertEquals("XyBBa910", user.getKey());
@@ -79,12 +86,15 @@ public class UserMapperTest extends AbstractUnitTest {
         assertEquals(2, user.getPhoneNumbers().size());
     }
 
+    /**
+     * Test for converting Address to AddressDTO and vice versa.
+     */
     @Test
     @DisplayName("address to addressDto and reverse")
     public void address_to_addressDto_and_reverse() {
         // given
         Address address = Address.builder().street("123 Main St").city("Anytown").state("CA").zipcode("12345").build();
-        
+
         // when
         AddressDTO addressDTO = userMapper.toDto(address);
         Address mappedAddress = userMapper.toEntity(addressDTO);
@@ -92,11 +102,14 @@ public class UserMapperTest extends AbstractUnitTest {
         // then
         assertNotNull(addressDTO);
         assertEquals("123 Main St", addressDTO.getStreet());
-        
+
         assertNotNull(mappedAddress);
         assertEquals("123 Main St", mappedAddress.getStreet());
     }
 
+    /**
+     * Test for converting PhoneNumber to PhoneNumberDTO and vice versa.
+     */
     @Test
     @DisplayName("phoneNumber to phoneNumberDto and reverse")
     public void phoneNumber_to_phoneNumberDto_and_reverse() {

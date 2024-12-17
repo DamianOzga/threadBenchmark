@@ -1,6 +1,5 @@
 package com.interview.damian_ozga.utils;
 
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,12 +9,20 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-// TODO: ADD LOGS, JAVA DOCS, TESTY
+/**
+ * Utility class for file operations related to benchmarking.
+ */
 public class FileUtils {
 
     private static final String TEMP_DIRECTORY = "\\benchmark";
     private static final String TEST_FILE = "benchmarkDocument.json";
 
+    /**
+     * Creates and returns a benchmark JSON file.
+     * If the file does not exist, it creates the necessary directories and writes dummy JSON content to the file.
+     *
+     * @return the benchmark JSON file
+     */
     public static File getBenchmarkJSONFile() {
         String directory = System.getProperty("user.home") + TEMP_DIRECTORY;
         File dir = new File(directory);
@@ -34,6 +41,9 @@ public class FileUtils {
         return file;
     }
 
+    /**
+     * Deletes the benchmark JSON file and its parent directory if they exist.
+     */
     public static void cleanupTestJSONFile() {
         String directory = System.getProperty("user.home") + TEMP_DIRECTORY;
         File file = new File(directory, TEST_FILE);
@@ -46,26 +56,47 @@ public class FileUtils {
         }
     }
 
+    /**
+     * Creates a MongoDB Document from a JSON file.
+     *
+     * @param file the JSON file
+     * @return the created Document
+     * @throws RuntimeException if reading the file or parsing the JSON fails
+     */
     public static Document createDocumentFromJSONFile(File file) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             JsonNode jsonNode = mapper.readTree(file);
             return Document.parse(jsonNode.toString());
         } catch (IOException jExc) {
-            throw new RuntimeException("Creation document from JSON file filed.", jExc);
+            throw new RuntimeException("Creating document from JSON file failed.", jExc);
         }
     }
 
+    /**
+     * Maps a JSON file to a given class type.
+     *
+     * @param file  the JSON file
+     * @param clazz the class type to map to
+     * @param <T>   the type of the class
+     * @return the mapped object
+     * @throws RuntimeException if reading the file or mapping the JSON fails
+     */
     public static <T> T mapJsonFileToClass(File file, Class<T> clazz) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, Boolean.FALSE);
         try {
             return objectMapper.readValue(file, clazz);
         } catch (IOException iOe) {
-            throw new RuntimeException("Mapping json file to class " + clazz.getName() + " failed.");
+            throw new RuntimeException("Mapping JSON file to class " + clazz.getName() + " failed.");
         }
     }
 
+    /**
+     * Returns dummy JSON content for the benchmark file.
+     *
+     * @return the dummy JSON content
+     */
     private static String getDummyJsonContent() {
         return """
         {

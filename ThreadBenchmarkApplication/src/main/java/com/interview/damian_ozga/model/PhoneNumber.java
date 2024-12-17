@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Model class representing a phone number.
+ */
 @Getter
 @Setter
 @Builder

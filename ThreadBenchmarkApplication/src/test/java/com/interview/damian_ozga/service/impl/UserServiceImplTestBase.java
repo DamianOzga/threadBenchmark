@@ -13,6 +13,9 @@ import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Integration tests for the UserServiceImpl class.
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserServiceImplTestBase extends AbstractIntegrationTestBase {
 
@@ -22,6 +25,9 @@ class UserServiceImplTestBase extends AbstractIntegrationTestBase {
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * Test for saving a user in the database.
+     */
     @Test
     @DisplayName("User saved in database")
     void user_saved_in_database() {
@@ -37,9 +43,11 @@ class UserServiceImplTestBase extends AbstractIntegrationTestBase {
         assertAll("Group of assertions for user_saved_in_database method.",
                 () -> assertNotNull(newUserDto),
                 () -> assertEquals(byKey.getName(), newUserDto.getName()));
-
     }
 
+    /**
+     * Test for retrieving a user by key.
+     */
     @Test
     @DisplayName("Get by key returns saved user")
     void get_by_key_returns_saved_user() {
@@ -59,6 +67,9 @@ class UserServiceImplTestBase extends AbstractIntegrationTestBase {
                 () -> assertEquals(userDTO.getEmail(), userDtoByKey.getEmail()));
     }
 
+    /**
+     * Test for deleting all users.
+     */
     @Test
     @DisplayName("All users deleted.")
     void all_users_deleted() {
@@ -66,7 +77,7 @@ class UserServiceImplTestBase extends AbstractIntegrationTestBase {
         val userDTO = new UserDTO();
         userDTO.setName("Test User");
         val userDTO2 = new UserDTO();
-        userDTO.setName("Test User2");
+        userDTO2.setName("Test User2");
         val newUser = userService.save(userDTO);
         val newUser2 = userService.save(userDTO2);
 
@@ -74,11 +85,14 @@ class UserServiceImplTestBase extends AbstractIntegrationTestBase {
         userService.deleteAll();
 
         // then
-        assertAll("Group of assertions for get_by_key_returns_saved_user method.",
+        assertAll("Group of assertions for all_users_deleted method.",
                 () -> assertThrows(NoSuchElementException.class, () -> userService.getByKey(newUser.getKey())),
                 () -> assertThrows(NoSuchElementException.class, () -> userService.getByKey(newUser2.getKey())));
     }
 
+    /**
+     * Test for checking the existence of a saved user and a non-existent key.
+     */
     @Test
     @DisplayName("Saved user exist, random key doesn't exist")
     void saved_user_exist_random_key_does_not_exist() {
@@ -97,6 +111,9 @@ class UserServiceImplTestBase extends AbstractIntegrationTestBase {
                 () -> assertFalse(notExists));
     }
 
+    /**
+     * Test for retrieving a user by email.
+     */
     @Test
     @DisplayName("Get by email returns saved user")
     void get_by_email_returns_Saved_user() {

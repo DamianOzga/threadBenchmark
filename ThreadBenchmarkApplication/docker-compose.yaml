@@ -3,22 +3,21 @@ version: '3.8'
 services:
   app:
     image: thread-benchmark
-    ports:
-      - "8080:8080"
+#    ports:
+#      - "8080:8080" # Expose port 8080 on the container to port 8080 on the host
     depends_on:
       mongodb:
-        condition: service_started
+        condition: service_started # Ensure MongoDB service is started before the app
     environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017
-      - SPRING_DATA_MONGODB_DATABASE=Benchmark
-
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017 # MongoDB connection URI
+      - SPRING_DATA_MONGODB_DATABASE=Benchmark # Database name to use in MongoDB
 
   mongodb:
-    image: mongo:7.0
+    image: mongo:7.0 # Use MongoDB version 7.0 image
     ports:
-      - "27017:27017"
+      - "27017:27017" # Expose port 27017 on the container to port 27017 on the host
     volumes:
-      - mongo-data:/data/db
+      - mongo-data:/data/db # Mount the volume 'mongo-data' to persist MongoDB data
 
 volumes:
-  mongo-data:
+  mongo-data: # Define a named volume for MongoDB data persistence
