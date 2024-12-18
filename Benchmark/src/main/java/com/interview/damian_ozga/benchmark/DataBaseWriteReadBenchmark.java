@@ -19,7 +19,7 @@ public class DataBaseWriteReadBenchmark extends AbstractThreadBenchmark {
      */
     @Override
     public void codeToTest() {
-        try {
+//        try {
             // Retrieve the JSON file containing the benchmark data
             File benchmarkJSONFile = FileUtils.getBenchmarkJSONFile();
 
@@ -33,9 +33,9 @@ public class DataBaseWriteReadBenchmark extends AbstractThreadBenchmark {
             userService.getByKey(userDTO.getKey());
             userService.getByKey(userDTO.getKey());
             userService.getByKey(userDTO.getKey());
-        } catch (Exception exc) {
-            // Handle any exceptions that occur during the benchmark
-            System.err.println("Exception caught in codeToTest: " + exc.getMessage());
-        }
+//        } catch (Exception exc) {
+//            // Handle any exceptions that occur during the benchmark
+//            System.err.println("Exception caught in codeToTest: " + exc.getMessage());
+//        }
     }
 }
