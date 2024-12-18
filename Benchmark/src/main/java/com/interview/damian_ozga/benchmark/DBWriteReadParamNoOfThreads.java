@@ -22,14 +22,22 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * A benchmark class that measures the performance of database write and read operations.
+ * The number of threads used for the operations can be parameterized.
+ */
 @Slf4j
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.All)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-public class DBWriteReadParamNoOfThreads implements Benchmarkable{
+public class DBWriteReadParamNoOfThreads implements Benchmarkable {
 
+    /**
+     * The number of threads to use for the benchmark. Specified as a parameter.
+     */
     @Param({"1", "2", "4", "6", "10", "16"})
     public int numberOfThreads;
+
     protected ExecutorService executorService;
     protected ConfigurableApplicationContext context;
     protected UserService userService;
@@ -38,11 +46,14 @@ public class DBWriteReadParamNoOfThreads implements Benchmarkable{
      * Sets up the Spring application context and initializes the UserService bean before each iteration.
      */
     @Setup(Level.Iteration)
-    public void setup(){
+    public void setup() {
         context = getApplicationContext();
         userService = getUserService(context);
     }
 
+    /**
+     * Cleans up the database and closes the application context after each iteration.
+     */
     @Override
     public void cleanUp() {
         userService.deleteAll();
@@ -50,11 +61,17 @@ public class DBWriteReadParamNoOfThreads implements Benchmarkable{
         context.close();
     }
 
+    /**
+     * Sets up the ExecutorService with a fixed thread pool before each invocation.
+     */
     @Setup(Level.Invocation)
-    public void innerSetup(){
+    public void innerSetup() {
         executorService = Executors.newFixedThreadPool(numberOfThreads);
     }
 
+    /**
+     * Shuts down the ExecutorService after each invocation.
+     */
     @TearDown(Level.Invocation)
     public void innerCleanup() {
         executorService.shutdown();
@@ -65,36 +82,39 @@ public class DBWriteReadParamNoOfThreads implements Benchmarkable{
         }
     }
 
-
+    /**
+     * Executes the benchmark code. Reads a UserDTO from a JSON file, saves it to the database,
+     * and performs multiple read operations to retrieve the user by key.
+     */
     public void codeToTest() {
         for (int i = 0; i < numberOfThreads; i++) {
-            executorService.submit(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        File benchmarkJSONFile = FileUtils.getBenchmarkJSONFile();
+            executorService.submit(() -> {
+                try {
+                    File benchmarkJSONFile = FileUtils.getBenchmarkJSONFile();
 
-                        // Map the JSON file to a UserDTO object
-                        UserDTO userDTO = FileUtils.mapJsonFileToClass(benchmarkJSONFile, UserDTO.class);
+                    // Map the JSON file to a UserDTO object
+                    UserDTO userDTO = FileUtils.mapJsonFileToClass(benchmarkJSONFile, UserDTO.class);
 
-                        // Save the user to the database
-                        userService.save(userDTO);
+                    // Save the user to the database
+                    userService.save(userDTO);
 
-                        // Perform multiple read operations to get the user by the key
-                        userService.getByKey(userDTO.getKey());
-                        userService.getByKey(userDTO.getKey());
-                        userService.getByKey(userDTO.getKey());
-                    } catch (Exception exc) {
-                        // Handle any exceptions that occur during the benchmark
-                        System.err.println("ERROR! " + exc.getMessage());
-                    }
+                    // Perform multiple read operations to get the user by the key
+                    userService.getByKey(userDTO.getKey());
+                    userService.getByKey(userDTO.getKey());
+                    userService.getByKey(userDTO.getKey());
+                } catch (Exception exc) {
+                    // Handle any exceptions that occur during the benchmark
+                    System.err.println("ERROR! " + exc.getMessage());
                 }
             });
         }
     }
 
+    /**
+     * Benchmark method that runs the code to test with the specified number of threads.
+     */
     @Benchmark
-    @Measurement(iterations = 1, time = 60, timeUnit = TimeUnit.SECONDS)
+    @Measurement(iterations = 1, time = 180, timeUnit = TimeUnit.SECONDS)
     public void concurrencyThreads() {
         codeToTest();
     }
