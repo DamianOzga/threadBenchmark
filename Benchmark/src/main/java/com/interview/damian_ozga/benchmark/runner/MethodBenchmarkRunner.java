@@ -1,5 +1,6 @@
 package com.interview.damian_ozga.benchmark.runner;
 
+import com.interview.damian_ozga.benchmark.DBWriteReadParamNoOfThreads;
 import com.interview.damian_ozga.benchmark.DataBaseWriteReadBenchmark;
 import com.interview.damian_ozga.benchmark.DataBaseWriteReadRawDocumentBenchmark;
 import com.interview.damian_ozga.benchmark.DataBaseWriteReadWithIndexBenchmark;
@@ -30,14 +31,16 @@ public class MethodBenchmarkRunner {
         // Configure the JMH options for the benchmarks
         Options opt = new OptionsBuilder()
                 .include(DataBaseWriteReadBenchmark.class.getSimpleName())
+                .include(DBWriteReadParamNoOfThreads.class.getSimpleName())
                 .include(DatabaseCheckedWriteReadBenchmark.class.getSimpleName())
                 .include(DataBaseWriteReadWithIndexBenchmark.class.getSimpleName())
                 .include(DatabaseWriteReadWithReadyFileBenchmark.class.getSimpleName())
                 .include(DataBaseWriteReadRawDocumentBenchmark.class.getSimpleName())
                 .warmupIterations(0) // Set the number of warmup iterations to 0
-                .result("All-benchmark-results-16-12.csv") // Set the result file name
+                .result("results.csv") // Set the result file name
                 .resultFormat(ResultFormatType.CSV) // Set the result format to CSV
-                .forks(0) // Set the number of forks to 0
+                .forks(1) // Set the number of forks to 1
+                .shouldFailOnError(false)
                 .build();
 
         // Run the benchmarks with the specified options

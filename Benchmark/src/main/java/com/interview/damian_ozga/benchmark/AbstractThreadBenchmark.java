@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.All)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-public abstract class AbstractThreadBenchmark {
+public abstract class AbstractThreadBenchmark implements Benchmarkable{
 
     protected ConfigurableApplicationContext context;
     protected UserService userService;
@@ -37,17 +37,18 @@ public abstract class AbstractThreadBenchmark {
      */
     @Setup(Level.Iteration)
     public void setup(){
-        context = SpringApplication.run(ThreadBenchmarkApp.class);
-        userService = context.getBean(UserService.class);
+        context = getApplicationContext();
+        userService = getUserService(context);
     }
 
     /**
      * Cleans up the test data and context after each iteration.
      */
     @TearDown(Level.Iteration)
-    public void cleanup(){
+    public void cleanUp(){
         userService.deleteAll();
         FileUtils.cleanupTestJSONFile();
+        context.close();
     }
 
     /**

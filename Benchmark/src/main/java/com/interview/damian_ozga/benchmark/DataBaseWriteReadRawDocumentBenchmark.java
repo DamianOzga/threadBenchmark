@@ -29,7 +29,7 @@ public class DataBaseWriteReadRawDocumentBenchmark extends AbstractThreadBenchma
      * Cleans up the test data from the MongoDB collection after each iteration.
      */
     @Override
-    public void cleanup() {
+    public void cleanUp() {
         mongoTemplate.getCollection("benchmark").deleteOne(documentFromJSONFile);
     }
 
