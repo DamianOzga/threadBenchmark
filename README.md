@@ -29,6 +29,7 @@ The project consists of the following modules:
 
 1. **Benchmark**: This module contains the benchmark tests.
 2. **ThreadBenchmarkApplication**: This is the main application module that is being tested.
+3. **JmeterPerformanceApplication**: This module contains a very simple application that allows you to test it using jmeter.
 
 ## Profiles
 
@@ -80,6 +81,15 @@ To install and run the `threadBenchmark` application, follow these steps:
     docker-compose up
     # Close Docker Compose
     docker-compose down
+    ```
+5. **Run the JmeterPerformanceApplication module:**
+   ```bash
+    ./mvn clean compile
+    ./mvn package
+   
+   copy JmeterPerformanceApplication-**-dependencies.jar file
+   to jmeter lib/ext folder and write your own Test Plans
+   
     ```
 
 ## ExtendingTestCases
