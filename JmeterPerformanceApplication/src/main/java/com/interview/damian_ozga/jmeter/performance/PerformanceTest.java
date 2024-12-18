@@ -1,6 +1,8 @@
 package com.interview.damian_ozga.jmeter.performance;
 
 import com.interview.damian_ozga.jmeter.config.MongoDbConfig;
+import com.interview.damian_ozga.jmeter.service.MongoDocumentService;
+import com.interview.damian_ozga.jmeter.utils.FileUtils;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -14,13 +16,13 @@ import org.bson.Document;
 
 import java.io.File;
 
-import static com.interview.damian_ozga.jmeter.utils.FileUtils.getBenchmarkJSONFile;
-
 public class PerformanceTest implements JavaSamplerClient {
 
     private MongoClient mongoClient;
     private MongoDatabase mongoDatabase;
     private MongoCollection<Document> mongoCollection;
+    private MongoDocumentService mongoDocumentService;
+    private Document documentFromJSONFile;
 
     public PerformanceTest() {
     }
@@ -31,27 +33,29 @@ public class PerformanceTest implements JavaSamplerClient {
         mongoClient = config.getMongoClient();
         mongoDatabase = config.getDatabase(mongoClient);
         mongoCollection = config.getCollection(mongoDatabase);
+        mongoDocumentService = new MongoDocumentService(mongoCollection);
+
     }
 
     @Override
     public SampleResult runTest(JavaSamplerContext javaSamplerContext) {
         SampleResult sampleResult = new SampleResult();
         sampleResult.sampleStart();
-        File benchmarkJSONFile = getBenchmarkJSONFile();
+        File benchmarkJSONFile = FileUtils.getBenchmarkJSONFile();
+        documentFromJSONFile = FileUtils.createDocumentFromJSONFile(benchmarkJSONFile);
         // Create a document to insert
-        Document doc = new Document("name", "John Doe")
-                .append("email", "john.doe@example.com")
-                .append("age", 29);
 
         // Insert the document into the collection
-        InsertOneResult insertOneResult = mongoCollection.insertOne(doc);
+        mongoDocumentService.insertDoc(documentFromJSONFile);
+
+//        InsertOneResult insertOneResult = mongoCollection.insertOne(documentFromJSONFile);
         System.out.println("Document inserted successfully");
 
-        // Retrieve the document from the collection
-        FindIterable<Document> iterable = mongoCollection.find(new Document("name", "John Doe"));
-        for (Document document : iterable) {
-            System.out.println("Retrieved document: " + document.toJson());
-        }
+        String keyValue = (String) documentFromJSONFile.get("key");
+        mongoDocumentService.findByKey("key", keyValue);
+        mongoDocumentService.findByKey("key", keyValue);
+        mongoDocumentService.findByKey("key", keyValue);
+
         sampleResult.sampleEnd();
         sampleResult.setSuccessful(true);
         return sampleResult;
@@ -59,7 +63,8 @@ public class PerformanceTest implements JavaSamplerClient {
 
     @Override
     public void teardownTest(JavaSamplerContext javaSamplerContext) {
-
+        mongoCollection.deleteMany(documentFromJSONFile);
+        mongoClient.close();
     }
 
     @Override
